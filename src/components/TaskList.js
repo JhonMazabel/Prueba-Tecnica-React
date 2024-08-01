@@ -5,6 +5,8 @@ import EditTask from './EditTask'; // Importa el componente de edición
 
 const TaskList = ({ projectId }) => {
   const { tasks, fetchTasks, deleteTask } = useProjectStore();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterStatus, setFilterStatus] = useState('');
   const [editingTaskId, setEditingTaskId] = useState(null);
 
   useEffect(() => {
@@ -15,12 +17,45 @@ const TaskList = ({ projectId }) => {
     setEditingTaskId(taskId);
   };
 
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleStatusChange = (e) => {
+    setFilterStatus(e.target.value);
+  };
+
+  const filteredTasks = (tasks[projectId] || []).filter(task => {
+    const matchesSearch = task.nombre.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = filterStatus ? task.estado === filterStatus : true;
+    return matchesSearch && matchesStatus;
+  });
+
   return (
     <div>
       <h2>Tareas del Proyecto</h2>
+      <div className="mb-4">
+        <input 
+          type="text" 
+          placeholder="Buscar tareas..." 
+          value={searchTerm} 
+          onChange={handleSearchChange} 
+          className="form-control mb-2"
+        />
+        <select 
+          value={filterStatus} 
+          onChange={handleStatusChange} 
+          className="form-control"
+        >
+          <option value="">Todos los estados</option>
+          <option value="pendiente">Pendiente</option>
+          <option value="en progreso">En Progreso</option>
+          <option value="completada">Completada</option>
+        </select>
+      </div>
       {editingTaskId && <EditTask projectId={projectId} taskId={editingTaskId} />}
       <ul className="list-group">
-        {(tasks[projectId] || []).map(task => (
+        {filteredTasks.map(task => (
           <li key={task.id} className="list-group-item d-flex justify-content-between align-items-center">
             <div>
               <h5>{task.nombre}</h5>
