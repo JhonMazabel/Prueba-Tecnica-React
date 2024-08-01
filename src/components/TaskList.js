@@ -45,7 +45,8 @@ const TaskList = ({ projectId }) => {
         <select 
           value={filterStatus} 
           onChange={handleStatusChange} 
-          className="form-control"
+          className="form-control" 
+          
         >
           <option value="">Todos los estados</option>
           <option value="pendiente">Pendiente</option>
