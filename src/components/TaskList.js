@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import useProjectStore from '../store/projectStore';
 import { FaTrashAlt, FaEdit } from 'react-icons/fa';
-import EditTask from './EditTask'; // Importa el componente de edición
+import EditTaskModal from './EditTaskModal';
 
 const TaskList = ({ projectId }) => {
   const { tasks, fetchTasks, deleteTask } = useProjectStore();
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
-  const [editingTaskId, setEditingTaskId] = useState(null);
+  const [editingTask, setEditingTask] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     fetchTasks(projectId);
   }, [fetchTasks, projectId]);
 
-  const handleEditClick = (taskId) => {
-    setEditingTaskId(taskId);
+  const handleEditClick = (task) => {
+    setEditingTask(task);
+    setShowModal(true);
   };
 
   const handleSearchChange = (e) => {
@@ -23,6 +25,11 @@ const TaskList = ({ projectId }) => {
 
   const handleStatusChange = (e) => {
     setFilterStatus(e.target.value);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setEditingTask(null);
   };
 
   const filteredTasks = (tasks[projectId] || []).filter(task => {
@@ -45,8 +52,7 @@ const TaskList = ({ projectId }) => {
         <select 
           value={filterStatus} 
           onChange={handleStatusChange} 
-          className="form-control" 
-          
+          className="form-control"
         >
           <option value="">Todos los estados</option>
           <option value="pendiente">Pendiente</option>
@@ -54,7 +60,6 @@ const TaskList = ({ projectId }) => {
           <option value="completada">Completada</option>
         </select>
       </div>
-      {editingTaskId && <EditTask projectId={projectId} taskId={editingTaskId} />}
       <ul className="list-group">
         {filteredTasks.map(task => (
           <li key={task.id} className="list-group-item d-flex justify-content-between align-items-center">
@@ -67,7 +72,7 @@ const TaskList = ({ projectId }) => {
             </div>
             <div>
               <button 
-                onClick={() => handleEditClick(task.id)} 
+                onClick={() => handleEditClick(task)} 
                 className="btn btn-warning btn-sm me-2"
               >
                 <FaEdit /> {/* Icono de editar */}
@@ -82,6 +87,14 @@ const TaskList = ({ projectId }) => {
           </li>
         ))}
       </ul>
+      {editingTask && (
+        <EditTaskModal 
+          show={showModal} 
+          handleClose={handleCloseModal} 
+          task={editingTask} 
+          projectId={projectId} 
+        />
+      )}
     </div>
   );
 };

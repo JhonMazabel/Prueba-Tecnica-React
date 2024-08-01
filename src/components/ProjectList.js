@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import useProjectStore from '../store/projectStore';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
+import useProjectStore from '../store/projectStore';
+import AddProjectModal from './AddProjectModal';
+import EditProjectModal from './EditProjectModal';
+import { Button } from 'react-bootstrap';
 
 const ProjectList = () => {
   const { projects, fetchProjects, deleteProject } = useProjectStore();
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('all');
   const [filteredProjects, setFilteredProjects] = useState([]);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editProjectId, setEditProjectId] = useState(null);
 
   useEffect(() => {
     fetchProjects();
@@ -27,6 +33,24 @@ const ProjectList = () => {
 
     setFilteredProjects(result);
   }, [projects, search, filter]);
+
+  const handleShowAddModal = () => {
+    setShowAddModal(true);
+  };
+
+  const handleCloseAddModal = () => {
+    setShowAddModal(false);
+  };
+
+  const handleShowEditModal = (projectId) => {
+    setEditProjectId(projectId);
+    setShowEditModal(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+    setEditProjectId(null);
+  };
 
   return (
     <div>
@@ -51,7 +75,9 @@ const ProjectList = () => {
           <option value="inactivo">Inactivos</option>
         </select>
       </div>
-      <Link to="/add-project" className="btn btn-primary mb-3">Agregar Proyecto</Link>
+      <Button variant="primary" className="mb-3" onClick={handleShowAddModal}>
+        Agregar Proyecto
+      </Button>
       <ul className="list-group">
         {filteredProjects.map((project) => {
           const status = project.status || 'inactivo';
@@ -69,9 +95,12 @@ const ProjectList = () => {
                 <Link to={`/project/${project.id}`} className="btn btn-info btn-sm me-2">
                   Ver Detalles
                 </Link>
-                <Link to={`/edit-project/${project.id}`} className="btn btn-warning btn-sm me-2">
+                <button 
+                  onClick={() => handleShowEditModal(project.id)} 
+                  className="btn btn-warning btn-sm me-2"
+                >
                   <FaEdit /> {/* Icono de editar */}
-                </Link>
+                </button>
                 <button 
                   onClick={() => deleteProject(project.id)} 
                   className="btn btn-danger btn-sm"
@@ -83,6 +112,14 @@ const ProjectList = () => {
           );
         })}
       </ul>
+      <AddProjectModal show={showAddModal} handleClose={handleCloseAddModal} />
+      {editProjectId && (
+        <EditProjectModal 
+          show={showEditModal} 
+          handleClose={handleCloseEditModal} 
+          projectId={editProjectId} 
+        />
+      )}
     </div>
   );
 };

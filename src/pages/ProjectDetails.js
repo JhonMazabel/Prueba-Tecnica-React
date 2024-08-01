@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import AddTask from '../components/AddTask';
 import TaskList from '../components/TaskList';
+import AddTaskModal from '../components/AddTaskModal';
 import useProjectStore from '../store/projectStore';
 
 const ProjectDetails = () => {
   const { projectId } = useParams();
-  const { projects, tasks, taskCounts, fetchProjects, fetchTasks } = useProjectStore();
+  const { projects, taskCounts, fetchProjects, fetchTasks } = useProjectStore();
   const [project, setProject] = useState(null);
+  const [showAddTaskModal, setShowAddTaskModal] = useState(false);
 
   useEffect(() => {
     fetchProjects(); // Carga los proyectos
@@ -20,6 +21,14 @@ const ProjectDetails = () => {
       fetchTasks(projectId); // Carga las tareas del proyecto
     }
   }, [projects, projectId, fetchTasks]);
+
+  const handleOpenAddTaskModal = () => {
+    setShowAddTaskModal(true);
+  };
+
+  const handleCloseAddTaskModal = () => {
+    setShowAddTaskModal(false);
+  };
 
   return (
     <div>
@@ -43,11 +52,18 @@ const ProjectDetails = () => {
             )}
           </div>
           <div className="mb-4">
-            <AddTask projectId={projectId} />
+            <button className="btn btn-primary" onClick={handleOpenAddTaskModal}>
+              Agregar Tarea
+            </button>
           </div>
           <div>
             <TaskList projectId={projectId} />
           </div>
+          <AddTaskModal 
+            show={showAddTaskModal} 
+            handleClose={handleCloseAddTaskModal} 
+            projectId={projectId} 
+          />
         </>
       ) : (
         <p>Cargando detalles del proyecto...</p>
