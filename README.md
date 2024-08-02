@@ -1,3 +1,80 @@
+Gestión de Proyectos
+
+Una aplicación de gestión de proyectos desarrollada con React. Permite a los usuarios crear, editar y eliminar proyectos, asignar tareas a proyectos y realizar búsquedas y filtrados.
+
+Requisitos
+Node.js (versión 14 o superior)
+npm (versión 6 o superior) o yarn
+Instalación
+Clona el repositorio:
+
+bash
+Copiar código
+git clone https://github.com/usuario/repositorio.git
+cd repositorio
+Instala las dependencias:
+
+Con npm:
+
+bash
+Copiar código
+npm install
+Con yarn:
+
+bash
+Copiar código
+yarn install
+Uso
+Inicia el servidor de desarrollo:
+
+Con npm:
+
+bash
+Copiar código
+npm start
+Con yarn:
+
+bash
+Copiar código
+yarn start
+Esto iniciará la aplicación y la abrirá en http://localhost:3000 en tu navegador.
+
+Construye la aplicación para producción:
+
+Con npm:
+
+bash
+Copiar código
+npm run build
+Con yarn:
+
+bash
+Copiar código
+yarn build
+Esto generará una versión optimizada de la aplicación en la carpeta build.
+
+Estructura del Proyecto
+src/: Contiene el código fuente de la aplicación.
+
+components/: Componentes de React que conforman la interfaz de usuario.
+Home.js: Vista principal para gestionar proyectos.
+Project.js: Vista para detalles y gestión de un proyecto específico.
+Task.js: Componente para manejar las tareas asociadas a un proyecto.
+services/: Servicios para manejar la persistencia de datos y lógica de la aplicación.
+projectService.js: Servicio para la gestión de proyectos y tareas en localStorage.
+App.js: Componente principal que configura las rutas de la aplicación.
+index.js: Punto de entrada de la aplicación React.
+App.css: Estilos globales y layout.
+public/: Archivos estáticos como index.html y favicon.
+
+
+
+
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
