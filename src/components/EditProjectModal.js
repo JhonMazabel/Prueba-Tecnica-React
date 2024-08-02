@@ -1,11 +1,12 @@
 // EditProjectModal.js
 import React, { useState, useEffect } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
+import { Modal, Button, Form, Alert } from 'react-bootstrap';
 import useProjectStore from '../store/projectStore';
 
 const EditProjectModal = ({ show, handleClose, projectId }) => {
   const { projects, updateProject, fetchProjects } = useProjectStore();
   const [project, setProject] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
     fetchProjects();
@@ -21,10 +22,18 @@ const EditProjectModal = ({ show, handleClose, projectId }) => {
     setProject({ ...project, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    updateProject(projectId, project);
-    handleClose();
+    try {
+      await updateProject(projectId, project);
+      setSuccessMessage('Proyecto guardado exitosamente.');
+      setTimeout(() => {
+        setSuccessMessage('');
+        handleClose();
+      }, 2000); // Hide the message and close the modal after 2 seconds
+    } catch (error) {
+      console.error('Error al actualizar el proyecto:', error);
+    }
   };
 
   if (!project) return null;
@@ -35,6 +44,7 @@ const EditProjectModal = ({ show, handleClose, projectId }) => {
         <Modal.Title>Editar Proyecto</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {successMessage && <Alert variant="success">{successMessage}</Alert>}
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label htmlFor="projectName">Nombre del Proyecto</Form.Label>

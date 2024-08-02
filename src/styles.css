@@ -1,14 +1,20 @@
-/* Navbar styles */
+body {
+  background-color: #f4f4f4;
+  font-family: Arial, sans-serif;
+}
+
 .navbar {
-  background-color: #343a40; /* Dark background for the navbar */
-  padding: 0.5rem 1rem; /* Padding for navbar items */
+  background-color: #343a40;
+  padding: 0.5rem 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .navbar-brand {
-  color: #ffffff; /* White text color */
+  color: #ffffff;
   font-size: 1.5rem;
   font-weight: bold;
   text-decoration: none;
@@ -19,19 +25,18 @@
 }
 
 .nav-item {
-  margin: 0 1rem; /* Spacing between nav items */
+  margin: 0 1rem;
 }
 
 .nav-link {
-  color: #ffffff; /* White text color for links */
+  color: #ffffff;
   text-decoration: none;
 }
 
 .nav-link:hover {
-  color: #17a2b8; /* Color for link hover effect */
+  color: #17a2b8;
 }
 
-/* Button styles */
 .btn {
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
@@ -41,39 +46,98 @@
 }
 
 .btn-primary {
-  background-color: #007bff; /* Blue background for primary buttons */
+  background-color: #003366;
   border: none;
   color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .btn-primary:hover {
-  background-color: #0056b3; /* Darker blue for hover effect */
+  background-color: #002244;
 }
 
-/* Project list styles */
-.project-list {
-  margin: 2rem;
-}
-
-.project-item {
-  background-color: #f8f9fa; /* Light background for project items */
-  border: 1px solid #dee2e6; /* Border for project items */
+.project-list-container {
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
   border-radius: 0.25rem;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  max-width: 900px;
+  margin: 2rem auto;
 }
 
-.project-item h3 {
+.project-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.project-card {
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  width: 300px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.project-card h5 {
   margin: 0;
   font-size: 1.25rem;
 }
 
-/* Task editor styles */
+.project-card p {
+  margin: 0.5rem 0;
+}
+
+.status-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.2em;
+  padding: 10px;
+  border-radius: 50%;
+  color: #fff;
+  background-color: #dc3545;
+}
+
+.status-badge.bg-success {
+  background-color: #28a745;
+}
+
+.status-badge.bg-secondary {
+  background-color: #6c757d;
+}
+
+.btn-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mt-2 {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
 .task-editor {
-  background-color: #ffffff; /* White background for the editor */
+  background-color: #ffffff;
   border: 1px solid #dee2e6;
   border-radius: 0.25rem;
   padding: 1rem;
@@ -97,26 +161,123 @@
   margin-top: 1rem;
 }
 
-/* Task status colors */
 .task-status-completed {
-  color: #28a745; /* Green color for completed tasks */
+  color: #28a745;
 }
 
 .task-status-pending {
-  color: #ffc107; /* Yellow color for pending tasks */
+  color: #ffc107;
 }
 
 .task-status-overdue {
-  color: #dc3545; /* Red color for overdue tasks */
-}
-/* Estilo para la barra de búsqueda */
-input[type="text"] {
-  width: 100%;
-  max-width: 400px;
-  margin-bottom: 10px;
+  color: #dc3545;
 }
 
-/* Estilo para el selector de filtro */
+.search-bar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+input[type="text"] {
+  flex: 1;
+  max-width: 400px;
+  margin-bottom: 0;
+}
+
 select.form-select {
   max-width: 200px;
+  margin-bottom: 5px;
+}
+
+.project-details {
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+.task-list-container {
+  margin-top: 2rem;
+}
+
+.search-bar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.list-group-item {
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.list-group-item div:first-child {
+  flex: 1;
+}
+
+.list-group-item div:last-child {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.task-editor {
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  margin: 1rem;
+}
+
+.task-editor h4 {
+  margin-top: 0;
+}
+
+.task-editor input,
+.task-editor textarea {
+  width: 100%;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  border: 1px solid #ced4da;
+}
+
+.task-editor button {
+  margin-top: 1rem;
+}
+
+.status-badge.bg-pendiente {
+  background-color: #ffc107;
+}
+
+.status-badge.bg-en-progreso {
+  background-color: #17a2b8;
+}
+
+.status-badge.bg-completada {
+  background-color: #28a745;
+}
+
+.task-list-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+}
+
+.task-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
 }

@@ -32,6 +32,12 @@ const TaskList = ({ projectId }) => {
     setEditingTask(null);
   };
 
+  const handleDeleteClick = (taskId) => {
+    if (window.confirm('¿Estás seguro de que deseas eliminar esta tarea?')) {
+      deleteTask(projectId, taskId);
+    }
+  };
+
   const filteredTasks = (tasks[projectId] || []).filter(task => {
     const matchesSearch = task.nombre.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = filterStatus ? task.estado === filterStatus : true;
@@ -41,7 +47,7 @@ const TaskList = ({ projectId }) => {
   return (
     <div>
       <h2>Tareas del Proyecto</h2>
-      <div className="mb-4">
+      <div className="search-bar mb-4">
         <input 
           type="text" 
           placeholder="Buscar tareas..." 
@@ -52,7 +58,7 @@ const TaskList = ({ projectId }) => {
         <select 
           value={filterStatus} 
           onChange={handleStatusChange} 
-          className="form-control"
+          className="form-select"
         >
           <option value="">Todos los estados</option>
           <option value="pendiente">Pendiente</option>
@@ -60,33 +66,33 @@ const TaskList = ({ projectId }) => {
           <option value="completada">Completada</option>
         </select>
       </div>
-      <ul className="list-group">
-        {filteredTasks.map(task => (
-          <li key={task.id} className="list-group-item d-flex justify-content-between align-items-center">
-            <div>
-              <h5>{task.nombre}</h5>
-              <p>{task.descripcion}</p>
-              <span className={`badge bg-${task.estado === 'completada' ? 'success' : task.estado === 'en progreso' ? 'warning' : 'secondary'}`}>
+      <div className="task-list-container">
+        <div className="task-list">
+          {filteredTasks.map(task => (
+            <div key={task.id} className="project-card">
+              <span className={`badge status-badge bg-${task.estado === 'completada' ? 'success' : task.estado === 'en progreso' ? 'warning' : 'secondary'}`}>
                 {task.estado.charAt(0).toUpperCase() + task.estado.slice(1)}
               </span>
+              <h5>{task.nombre}</h5>
+              <p>{task.descripcion}</p>
+              <div className="mt-2">
+                <button 
+                  onClick={() => handleEditClick(task)} 
+                  className="btn btn-warning btn-sm btn-circle me-2"
+                >
+                  <FaEdit />
+                </button>
+                <button 
+                  onClick={() => handleDeleteClick(task.id)} 
+                  className="btn btn-danger btn-sm btn-circle"
+                >
+                  <FaTrashAlt />
+                </button>
+              </div>
             </div>
-            <div>
-              <button 
-                onClick={() => handleEditClick(task)} 
-                className="btn btn-warning btn-sm me-2"
-              >
-                <FaEdit /> {/* Icono de editar */}
-              </button>
-              <button 
-                onClick={() => deleteTask(projectId, task.id)} 
-                className="btn btn-danger btn-sm"
-              >
-                <FaTrashAlt /> {/* Icono de eliminar */}
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
+          ))}
+        </div>
+      </div>
       {editingTask && (
         <EditTaskModal 
           show={showModal} 

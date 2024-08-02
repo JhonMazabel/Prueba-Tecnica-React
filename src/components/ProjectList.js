@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import useProjectStore from '../store/projectStore';
 import AddProjectModal from './AddProjectModal';
@@ -14,13 +14,13 @@ const ProjectList = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [editProjectId, setEditProjectId] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchProjects();
   }, [fetchProjects]);
 
   useEffect(() => {
-    // Filtrar y buscar proyectos
     let result = projects;
 
     if (filter !== 'all') {
@@ -52,10 +52,20 @@ const ProjectList = () => {
     setEditProjectId(null);
   };
 
+  const handleCardClick = (projectId) => {
+    navigate(`/project/${projectId}`);
+  };
+
+  const handleDeleteProject = (projectId) => {
+    if (window.confirm('¿Estás seguro de que deseas eliminar este proyecto?')) {
+      deleteProject(projectId);
+    }
+  };
+
   return (
-    <div>
-      <h1>Lista de Proyectos</h1>
-      <div className="mb-3">
+    <div className="project-list-container">
+      <h1 className="text-center mb-4">Lista de Proyectos</h1>
+      <div className="search-bar mb-3">
         <input
           type="text"
           className="form-control"
@@ -63,8 +73,6 @@ const ProjectList = () => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-      </div>
-      <div className="mb-3">
         <select 
           className="form-select" 
           value={filter} 
@@ -74,45 +82,47 @@ const ProjectList = () => {
           <option value="activo">Activos</option>
           <option value="inactivo">Inactivos</option>
         </select>
+        <Button variant="primary" onClick={handleShowAddModal}>
+          Agregar Proyecto
+        </Button>
       </div>
-      <Button variant="primary" className="mb-3" onClick={handleShowAddModal}>
-        Agregar Proyecto
-      </Button>
-      <ul className="list-group">
+      <div className="project-list">
         {filteredProjects.map((project) => {
           const status = project.status || 'inactivo';
 
           return (
-            <li key={project.id} className="list-group-item d-flex justify-content-between align-items-center">
-              <div>
-                <h5>{project.name}</h5>
-                <p>{project.description}</p>
-                <span className={`badge bg-${status === 'activo' ? 'success' : 'secondary'}`}>
-                  {status.charAt(0).toUpperCase() + status.slice(1)}
-                </span>
-              </div>
-              <div>
-                <Link to={`/project/${project.id}`} className="btn btn-info btn-sm me-2">
-                  Ver Detalles
-                </Link>
+            <div 
+              key={project.id} 
+              className="project-card"
+              onClick={() => handleCardClick(project.id)}
+            >
+              <span className={`badge status-badge bg-${status === 'activo' ? 'success' : 'secondary'}`}>
+                {status.charAt(0).toUpperCase() + status.slice(1)}
+              </span>
+              <h5>{project.name}</h5>
+              <p>{project.description}</p>
+              <div className="mt-2">
                 <button 
-                  onClick={() => handleShowEditModal(project.id)} 
-                  className="btn btn-warning btn-sm me-2"
+                  onClick={(e) => { e.stopPropagation(); handleShowEditModal(project.id); }} 
+                  className="btn btn-warning btn-sm btn-circle me-2"
                 >
-                  <FaEdit /> {/* Icono de editar */}
+                  <FaEdit />
                 </button>
                 <button 
-                  onClick={() => deleteProject(project.id)} 
-                  className="btn btn-danger btn-sm"
+                  onClick={(e) => { e.stopPropagation(); handleDeleteProject(project.id); }} 
+                  className="btn btn-danger btn-sm btn-circle"
                 >
-                  <FaTrashAlt /> {/* Icono de eliminar */}
+                  <FaTrashAlt />
                 </button>
               </div>
-            </li>
+            </div>
           );
         })}
-      </ul>
-      <AddProjectModal show={showAddModal} handleClose={handleCloseAddModal} />
+      </div>
+      <AddProjectModal 
+        show={showAddModal} 
+        handleClose={handleCloseAddModal} 
+      />
       {editProjectId && (
         <EditProjectModal 
           show={showEditModal} 
