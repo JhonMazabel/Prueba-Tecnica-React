@@ -30,7 +30,7 @@ const EditProjectModal = ({ show, handleClose, projectId }) => {
       setTimeout(() => {
         setSuccessMessage('');
         handleClose();
-      }, 2000); // Hide the message and close the modal after 2 seconds
+      }, 2000); 
     } catch (error) {
       console.error('Error al actualizar el proyecto:', error);
     }

@@ -190,6 +190,17 @@ select.form-select {
   margin-bottom: 5px;
 }
 
+.navbar {
+  display: flex;
+  justify-content: center;
+}
+
+.navbar-brand {
+  text-align: center;
+  flex: 1;
+}
+
+
 .project-details {
   background-color: #ffffff;
   border: 1px solid #dee2e6;

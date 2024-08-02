@@ -6,12 +6,12 @@ import useProjectStore from '../store/projectStore';
 const AddProjectModal = ({ show, handleClose }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [status, setStatus] = useState('activo'); // Nuevo campo
+  const [status, setStatus] = useState('activo'); 
   const { addProject } = useProjectStore();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addProject({ name, description, status }); // Incluye el nuevo campo en el proyecto
+    addProject({ name, description, status }); 
     setName('');
     setDescription('');
     setStatus('activo');

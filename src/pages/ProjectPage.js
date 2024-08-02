@@ -5,7 +5,7 @@ import useProjectStore from '../store/projectStore';
 import TaskForm from '../components/TaskForm';
 
 const ProjectPage = ({ match }) => {
-  const projectId = match.params.id; // Suponiendo que estás usando react-router-dom
+  const projectId = match.params.id; 
   const [project, setProject] = useState(null);
   const [showTaskForm, setShowTaskForm] = useState(false);
   const { fetchProjectById, fetchTasks, tasks } = useProjectStore(state => ({
