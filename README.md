@@ -1,6 +1,7 @@
 # <a name="proyecto-gestion"></a>Gestión de Proyectos
 
 Prueba tecnica React, aplicativo web tipo CRUD de gestión de proyectos desarrollada con React. Permite a los usuarios crear, editar y eliminar proyectos, asignar tareas a proyectos y realizar búsquedas y filtrados. en este enlace https://prueba-tecnica-react-dun.vercel.app/ se pude visualizar el aplicativo ejecutado.
+Su base de datos esta basada en Firebase, lo cual agiliza su proceso de despliegue. 
 ## <a name="requisitos"></a>Requisitos
 
 - **Node.js** (versión 14 o superior)
